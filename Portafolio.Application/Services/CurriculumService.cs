@@ -8,7 +8,8 @@ namespace Portafolio.Application.Services
         ISummaryRepository summaryRepository,
         IContactRepository contactRepository,
         IEducationRepository educationRepository,
-        ISkillRepository skillRepository
+        ISkillRepository skillRepository,
+        IExperienceRepository experienceRepository
         ) : ICurriculumService
     {
 
@@ -24,6 +25,7 @@ namespace Portafolio.Application.Services
             var contact = await contactRepository.GetByProfileIdAsync(id);
             var education = await educationRepository.GetByProfileIdAsync(id);
             var skillCategory = await skillRepository.GetByProfileIdAsync(id);
+            var experience = await experienceRepository.GetByProfileIdAsync(id);
 
             return new CurriculumDto
             {
@@ -31,7 +33,8 @@ namespace Portafolio.Application.Services
                 Summary = summary,
                 Contact = contact,
                 Education = education,
-                Skill = skillCategory
+                Skill = skillCategory,
+                Experience = experience
             };
         }
     }

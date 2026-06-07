@@ -7,5 +7,6 @@
         public List<ContactDto> Contact { get; set; } = [];
         public List<EducationDto> Education { get; set; } = [];
         public List<SkillCategoryDto> Skill { get; set; } = [];
+        public List<ExperienceDto> Experience { get; set; } = [];
     }
 }
