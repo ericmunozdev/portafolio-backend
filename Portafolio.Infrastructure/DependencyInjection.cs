@@ -17,6 +17,7 @@ namespace Portafolio.Infrastructure
             services.AddScoped<IEducationRepository, EducationRepository>();
             services.AddScoped<ISkillRepository, SkillRepository>();
             services.AddScoped<IExperienceRepository, ExperienceRepository>();
+            services.AddScoped<IAdditionalRepository, AdditionalRepository>();
 
             return services;
         }
