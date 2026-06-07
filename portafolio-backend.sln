@@ -19,6 +19,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portafolio.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portafolio.Domain", "Portafolio.Domain\Portafolio.Domain.csproj", "{2D05B11F-7B03-4724-A789-A22927457213}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portafolio.WebApi", "Portafolio.WebApi\Portafolio.WebApi.csproj", "{10C736EA-4FC3-42BD-A626-04034666B1A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{D107F4C8-89CC-BEA8-D3D7-CA6B7733353D}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +44,10 @@ Global
 		{2D05B11F-7B03-4724-A789-A22927457213}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D05B11F-7B03-4724-A789-A22927457213}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D05B11F-7B03-4724-A789-A22927457213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10C736EA-4FC3-42BD-A626-04034666B1A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10C736EA-4FC3-42BD-A626-04034666B1A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10C736EA-4FC3-42BD-A626-04034666B1A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10C736EA-4FC3-42BD-A626-04034666B1A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +60,7 @@ Global
 		{1A2DC965-4512-4F1E-95F1-20BAB70BB425} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{EE1C3A92-45DF-4B18-A1E9-885FD02B4863} = {08C44BB5-4DA6-46E7-BE0A-56FCA33AD378}
 		{2D05B11F-7B03-4724-A789-A22927457213} = {1A2DC965-4512-4F1E-95F1-20BAB70BB425}
+		{10C736EA-4FC3-42BD-A626-04034666B1A0} = {10CE5B43-0399-4B49-85AD-F30541C87852}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB61B535-DB3B-4AC9-93E6-2FCC7F281876}
