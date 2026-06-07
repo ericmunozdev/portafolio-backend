@@ -13,6 +13,7 @@ namespace Portafolio.Infrastructure.Repositories
         {
             return await context.Contacts
                 .Where(x => x.ProfileId == profileId && x.IsActive)
+                .OrderBy(x => x.Name)
                 .ProjectTo<ContactDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
         }

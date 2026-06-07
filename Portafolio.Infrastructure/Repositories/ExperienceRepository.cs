@@ -32,8 +32,8 @@ namespace Portafolio.Infrastructure.Repositories
 
                     Skills = x.ExperienceTechnologies
                         .Where(t => t.IsActive)
-                        .OrderBy(t => t.Skill.Name)
                         .Select(t => t.Skill.Name)
+                        .OrderBy(t => t)
                         .ToList()
                 })
                 .ToListAsync();

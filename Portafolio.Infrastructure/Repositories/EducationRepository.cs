@@ -13,6 +13,7 @@ namespace Portafolio.Infrastructure.Repositories
         {
             return await context.Educations
                 .Where(x => x.ProfileId == profileId && x.IsActive)
+                .OrderByDescending(x => x.GraduationYear)
                 .ProjectTo<EducationDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
         }

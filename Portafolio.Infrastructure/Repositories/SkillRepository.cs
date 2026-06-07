@@ -17,8 +17,8 @@ namespace Portafolio.Infrastructure.Repositories
                     Category = x.Name,
                     Items = x.Skills
                         .Where(s => s.IsActive && s.IsVisibleGral)
-                        .OrderBy(s => s.Name)
                         .Select(s => s.Name)
+                        .OrderBy(s => s)
                         .ToList()
                 })
                 .ToListAsync();
