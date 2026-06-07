@@ -3,28 +3,25 @@ using Portafolio.Application.Services;
 
 namespace Portafolio.WebApi.Controllers.V1
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    [ApiController]
     [Route("api/v1/[controller]")]
     public class CurriculumController : ControllerBase
     {
         private readonly ICurriculumService _curriculumService;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="curriculumService"></param>
         public CurriculumController(ICurriculumService curriculumService)
         {
             _curriculumService = curriculumService;
         }
 
         /// <summary>
-        /// Obtiene curriculum vitae mediante el identificador
+        /// Obtiene la información completa del currículum asociado al perfil especificado.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Identificador único del perfil.</param>
+        /// <returns>
+        /// Retorna el currículum completo del perfil, incluyendo información personal,
+        /// experiencia, educación, habilidades, idiomas y demás secciones asociadas.
+        /// </returns>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {

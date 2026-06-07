@@ -8,6 +8,7 @@ namespace Portafolio.WebApi.Extensions
     {
         public static IServiceCollection AddSwaggerExtensions(this IServiceCollection services, IConfiguration configuration)
         {
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddSwaggerGen(c =>
             {
                 var swaggerConfigV1 = configuration.GetSection("SwaggerConfigV1");
@@ -31,9 +32,9 @@ namespace Portafolio.WebApi.Extensions
                     Example = new OpenApiString("00:00:00")
                 });
 
-                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                //c.IncludeXmlComments(xmlPath);
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
