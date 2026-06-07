@@ -7,10 +7,7 @@ using Portafolio.Infrastructure.Persistence.Contexts;
 
 namespace Portafolio.Infrastructure.Repositories
 {
-    public class ProfileRepository(
-        PortafolioDbContext context,
-        IMapper mapper
-        ) : IProfileRepository
+    public class ProfileRepository(PortafolioDbContext context, IMapper mapper) : IProfileRepository
     {
         public async Task<ProfileDto?> GetByIdAsync(Guid id)
         {
