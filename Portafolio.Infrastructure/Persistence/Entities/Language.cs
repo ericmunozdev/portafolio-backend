@@ -6,7 +6,7 @@ public partial class Language
 
     public Guid ProfileId { get; set; }
 
-    public string Language1 { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
     public string? Level { get; set; }
 

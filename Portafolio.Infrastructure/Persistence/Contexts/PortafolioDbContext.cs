@@ -337,9 +337,9 @@ public partial class PortafolioDbContext : DbContext
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
-            entity.Property(e => e.Language1)
+            entity.Property(e => e.Name)
                 .HasMaxLength(50)
-                .HasColumnName("language");
+                .HasColumnName("name");
             entity.Property(e => e.Level)
                 .HasMaxLength(10)
                 .HasColumnName("level");

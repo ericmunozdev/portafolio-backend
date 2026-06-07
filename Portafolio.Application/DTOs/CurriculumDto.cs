@@ -9,5 +9,7 @@
         public List<SkillCategoryDto> Skill { get; set; } = [];
         public List<ExperienceDto> Experience { get; set; } = [];
         public List<AdditionalDto> Additional { get; set; } = [];
+        public List<LanguageDto> Language { get; set; } = [];
+        public List<ConditionDto> Condition { get; set; } = [];
     }
 }
