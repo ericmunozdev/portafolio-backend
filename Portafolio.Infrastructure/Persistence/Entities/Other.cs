@@ -1,18 +1,17 @@
-﻿namespace Portafolio.Infrastructure.Persistence.Entities;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class Condition
+namespace Portafolio.Infrastructure.Persistence.Entities;
+
+public partial class Other
 {
     public Guid Id { get; set; }
 
     public Guid ProfileId { get; set; }
 
-    public string Type { get; set; } = null!;
+    public string Text { get; set; } = null!;
 
-    public string Name { get; set; } = null!;
-
-    public string Value { get; set; } = null!;
-
-    public string? Icon { get; set; }
+    public string? Description { get; set; }
 
     public bool IsActive { get; set; }
 

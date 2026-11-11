@@ -1,14 +1,19 @@
-﻿namespace Portafolio.Infrastructure.Persistence.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Portafolio.Infrastructure.Persistence.Entities;
 
 public partial class Profile
 {
     public Guid Id { get; set; }
 
-    public string Title { get; set; } = null!;
+    public string WebTitle { get; set; } = null!;
 
     public string FullName { get; set; } = null!;
 
-    public string? Description { get; set; }
+    public string? WorkPosition { get; set; }
+
+    public string Presentation { get; set; } = null!;
 
     public bool IsActive { get; set; }
 
@@ -18,9 +23,7 @@ public partial class Profile
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual ICollection<Additional> Additionals { get; set; } = new List<Additional>();
-
-    public virtual ICollection<Condition> Conditions { get; set; } = new List<Condition>();
+    public virtual ICollection<AdditionalSkill> AdditionalSkills { get; set; } = new List<AdditionalSkill>();
 
     public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
 
@@ -28,9 +31,11 @@ public partial class Profile
 
     public virtual ICollection<Experience> Experiences { get; set; } = new List<Experience>();
 
-    public virtual ICollection<Language> Languages { get; set; } = new List<Language>();
+    public virtual ICollection<Other> Others { get; set; } = new List<Other>();
 
-    public virtual ICollection<SkillCategory> SkillCategories { get; set; } = new List<SkillCategory>();
+    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
 
-    public virtual ICollection<Summary> Summaries { get; set; } = new List<Summary>();
+    public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
+
+    public virtual ICollection<SkillsCategory> SkillsCategories { get; set; } = new List<SkillsCategory>();
 }

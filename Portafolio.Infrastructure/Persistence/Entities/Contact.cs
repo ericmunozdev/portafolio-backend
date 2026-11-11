@@ -1,4 +1,7 @@
-﻿namespace Portafolio.Infrastructure.Persistence.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Portafolio.Infrastructure.Persistence.Entities;
 
 public partial class Contact
 {
@@ -6,13 +9,15 @@ public partial class Contact
 
     public Guid ProfileId { get; set; }
 
-    public string Type { get; set; } = null!;
+    public Guid TypeContactId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string? Icon { get; set; }
+
+    public string DisplayName { get; set; } = null!;
 
     public string Value { get; set; } = null!;
 
-    public string? Icon { get; set; }
+    public short Position { get; set; }
 
     public bool IsActive { get; set; }
 
@@ -23,4 +28,6 @@ public partial class Contact
     public DateTime? DeletedAt { get; set; }
 
     public virtual Profile Profile { get; set; } = null!;
+
+    public virtual TypeContact TypeContact { get; set; } = null!;
 }

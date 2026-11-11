@@ -1,14 +1,17 @@
-﻿namespace Portafolio.Infrastructure.Persistence.Entities;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class Summary
+namespace Portafolio.Infrastructure.Persistence.Entities;
+
+public partial class SkillsCategory
 {
     public Guid Id { get; set; }
 
     public Guid ProfileId { get; set; }
 
-    public string Content { get; set; } = null!;
+    public string? Icon { get; set; }
 
-    public int Position { get; set; }
+    public string Name { get; set; } = null!;
 
     public bool IsActive { get; set; }
 
@@ -19,4 +22,6 @@ public partial class Summary
     public DateTime? DeletedAt { get; set; }
 
     public virtual Profile Profile { get; set; } = null!;
+
+    public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
 }

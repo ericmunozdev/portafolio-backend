@@ -1,24 +1,41 @@
-﻿namespace Portafolio.Infrastructure.Persistence.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Portafolio.Infrastructure.Persistence.Entities;
 
 public partial class Skill
 {
-    public short Id { get; set; }
+    public Guid Id { get; set; }
 
-    public short SkillCategoryId { get; set; }
+    public Guid ProfileId { get; set; }
 
-    public string Code { get; set; } = null!;
+    public Guid SkillCategoryId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public Guid? FatherId { get; set; }
 
     public string? Icon { get; set; }
 
-    public bool IsVisibleGral { get; set; }
+    public string Name { get; set; } = null!;
 
     public bool IsActive { get; set; }
 
-    public virtual ICollection<AdditionalTechnology> AdditionalTechnologies { get; set; } = new List<AdditionalTechnology>();
+    public DateTime CreatedAt { get; set; }
 
-    public virtual ICollection<ExperienceTechnology> ExperienceTechnologies { get; set; } = new List<ExperienceTechnology>();
+    public DateTime UpdatedAt { get; set; }
 
-    public virtual SkillCategory SkillCategory { get; set; } = null!;
+    public DateTime? DeletedAt { get; set; }
+
+    public virtual ICollection<AdditionalSkill> AdditionalSkills { get; set; } = new List<AdditionalSkill>();
+
+    public virtual ICollection<ExperienceSkill> ExperienceSkills { get; set; } = new List<ExperienceSkill>();
+
+    public virtual Skill? Father { get; set; }
+
+    public virtual ICollection<Skill> InverseFather { get; set; } = new List<Skill>();
+
+    public virtual Profile Profile { get; set; } = null!;
+
+    public virtual ICollection<ProjectSkill> ProjectSkills { get; set; } = new List<ProjectSkill>();
+
+    public virtual SkillsCategory SkillCategory { get; set; } = null!;
 }

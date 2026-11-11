@@ -1,12 +1,17 @@
-﻿namespace Portafolio.Infrastructure.Persistence.Entities;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class ExperienceTechnology
+namespace Portafolio.Infrastructure.Persistence.Entities;
+
+public partial class ExperienceSkill
 {
     public Guid Id { get; set; }
 
     public Guid ExperienceId { get; set; }
 
-    public short SkillId { get; set; }
+    public Guid SkillId { get; set; }
+
+    public short MonthsExperience { get; set; }
 
     public bool IsActive { get; set; }
 

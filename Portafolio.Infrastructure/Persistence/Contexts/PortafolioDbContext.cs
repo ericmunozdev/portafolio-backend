@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Portafolio.Infrastructure.Persistence.Entities;
 
 namespace Portafolio.Infrastructure.Persistence.Contexts;
@@ -10,11 +12,7 @@ public partial class PortafolioDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Additional> Additionals { get; set; }
-
-    public virtual DbSet<AdditionalTechnology> AdditionalTechnologies { get; set; }
-
-    public virtual DbSet<Condition> Conditions { get; set; }
+    public virtual DbSet<AdditionalSkill> AdditionalSkills { get; set; }
 
     public virtual DbSet<Contact> Contacts { get; set; }
 
@@ -22,122 +20,62 @@ public partial class PortafolioDbContext : DbContext
 
     public virtual DbSet<Experience> Experiences { get; set; }
 
-    public virtual DbSet<ExperienceResponsibility> ExperienceResponsibilities { get; set; }
+    public virtual DbSet<ExperienceSkill> ExperienceSkills { get; set; }
 
-    public virtual DbSet<ExperienceTechnology> ExperienceTechnologies { get; set; }
-
-    public virtual DbSet<Language> Languages { get; set; }
+    public virtual DbSet<Other> Others { get; set; }
 
     public virtual DbSet<Profile> Profiles { get; set; }
 
+    public virtual DbSet<Project> Projects { get; set; }
+
+    public virtual DbSet<ProjectSkill> ProjectSkills { get; set; }
+
     public virtual DbSet<Skill> Skills { get; set; }
 
-    public virtual DbSet<SkillCategory> SkillCategories { get; set; }
+    public virtual DbSet<SkillsCategory> SkillsCategories { get; set; }
 
-    public virtual DbSet<Summary> Summaries { get; set; }
+    public virtual DbSet<TypeContact> TypeContacts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresExtension("pgcrypto");
 
-        modelBuilder.Entity<Additional>(entity =>
+        modelBuilder.Entity<AdditionalSkill>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("additional_pkey");
+            entity.HasKey(e => e.Id).HasName("additional_skills_pkey");
 
-            entity.ToTable("additional");
+            entity.ToTable("additional_skills");
 
-            entity.HasIndex(e => e.Code, "additional_code_key").IsUnique();
+            entity.HasIndex(e => e.SkillId, "idx_additional_skills_skill_id");
+
+            entity.HasIndex(e => new { e.ProfileId, e.SkillId }, "uq_additional_skill").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
-            entity.Property(e => e.Code)
-                .HasMaxLength(50)
-                .HasColumnName("code");
-            entity.Property(e => e.Content).HasColumnName("content");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("created_at");
-            entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("is_active");
-            entity.Property(e => e.ProfileId).HasColumnName("profile_id");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("updated_at");
-
-            entity.HasOne(d => d.Profile).WithMany(p => p.Additionals)
-                .HasForeignKey(d => d.ProfileId)
-                .HasConstraintName("additional_profile_id_fkey");
-        });
-
-        modelBuilder.Entity<AdditionalTechnology>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("additional_technologies_pkey");
-
-            entity.ToTable("additional_technologies");
-
-            entity.HasIndex(e => new { e.AdditionalId, e.SkillId }, "uq_additional_technologies").IsUnique();
-
-            entity.Property(e => e.Id)
-                .HasDefaultValueSql("gen_random_uuid()")
-                .HasColumnName("id");
-            entity.Property(e => e.AdditionalId).HasColumnName("additional_id");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("is_active");
-            entity.Property(e => e.SkillId).HasColumnName("skill_id");
-
-            entity.HasOne(d => d.Additional).WithMany(p => p.AdditionalTechnologies)
-                .HasForeignKey(d => d.AdditionalId)
-                .HasConstraintName("additional_technologies_additional_id_fkey");
-
-            entity.HasOne(d => d.Skill).WithMany(p => p.AdditionalTechnologies)
-                .HasForeignKey(d => d.SkillId)
-                .HasConstraintName("additional_technologies_skill_id_fkey");
-        });
-
-        modelBuilder.Entity<Condition>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("conditions_pkey");
-
-            entity.ToTable("conditions");
-
-            entity.HasIndex(e => e.ProfileId, "idx_conditions_profile");
-
-            entity.HasIndex(e => new { e.ProfileId, e.Type, e.Value }, "uq_condition_typevalue").IsUnique();
-
-            entity.Property(e => e.Id)
-                .HasDefaultValueSql("gen_random_uuid()")
-                .HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("created_at");
-            entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-            entity.Property(e => e.Icon)
-                .HasMaxLength(100)
-                .HasColumnName("icon");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("is_active");
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .HasColumnName("name");
-            entity.Property(e => e.ProfileId).HasColumnName("profile_id");
-            entity.Property(e => e.Type)
-                .HasMaxLength(50)
-                .HasColumnName("type");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("updated_at");
-            entity.Property(e => e.Value)
+            entity.Property(e => e.Content)
                 .HasMaxLength(255)
-                .HasColumnName("value");
+                .HasColumnName("content");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
+            entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasColumnName("is_active");
+            entity.Property(e => e.ProfileId).HasColumnName("profile_id");
+            entity.Property(e => e.SkillId).HasColumnName("skill_id");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("updated_at");
 
-            entity.HasOne(d => d.Profile).WithMany(p => p.Conditions)
+            entity.HasOne(d => d.Profile).WithMany(p => p.AdditionalSkills)
                 .HasForeignKey(d => d.ProfileId)
-                .HasConstraintName("conditions_profile_id_fkey");
+                .HasConstraintName("additional_skills_profile_id_fkey");
+
+            entity.HasOne(d => d.Skill).WithMany(p => p.AdditionalSkills)
+                .HasForeignKey(d => d.SkillId)
+                .HasConstraintName("additional_skills_skill_id_fkey");
         });
 
         modelBuilder.Entity<Contact>(entity =>
@@ -146,9 +84,9 @@ public partial class PortafolioDbContext : DbContext
 
             entity.ToTable("contacts");
 
-            entity.HasIndex(e => e.ProfileId, "idx_contacts_profile");
+            entity.HasIndex(e => e.TypeContactId, "idx_contacts_type_contact_id");
 
-            entity.HasIndex(e => new { e.ProfileId, e.Type, e.Value }, "uq_contact_typevalue").IsUnique();
+            entity.HasIndex(e => new { e.ProfileId, e.TypeContactId, e.Value }, "uq_contact_typevalue").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
@@ -157,19 +95,20 @@ public partial class PortafolioDbContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");
             entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+            entity.Property(e => e.DisplayName)
+                .HasMaxLength(50)
+                .HasColumnName("display_name");
             entity.Property(e => e.Icon)
-                .HasMaxLength(100)
+                .HasMaxLength(50)
                 .HasColumnName("icon");
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .HasColumnName("name");
+            entity.Property(e => e.Position)
+                .HasDefaultValue((short)1)
+                .HasColumnName("position");
             entity.Property(e => e.ProfileId).HasColumnName("profile_id");
-            entity.Property(e => e.Type)
-                .HasMaxLength(50)
-                .HasColumnName("type");
+            entity.Property(e => e.TypeContactId).HasColumnName("type_contact_id");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("updated_at");
@@ -180,6 +119,10 @@ public partial class PortafolioDbContext : DbContext
             entity.HasOne(d => d.Profile).WithMany(p => p.Contacts)
                 .HasForeignKey(d => d.ProfileId)
                 .HasConstraintName("contacts_profile_id_fkey");
+
+            entity.HasOne(d => d.TypeContact).WithMany(p => p.Contacts)
+                .HasForeignKey(d => d.TypeContactId)
+                .HasConstraintName("contacts_type_contact_id_fkey");
         });
 
         modelBuilder.Entity<Education>(entity =>
@@ -188,7 +131,7 @@ public partial class PortafolioDbContext : DbContext
 
             entity.ToTable("educations");
 
-            entity.HasIndex(e => e.ProfileId, "idx_educations_profile");
+            entity.HasIndex(e => e.ProfileId, "idx_educations_profile_id");
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
@@ -199,7 +142,7 @@ public partial class PortafolioDbContext : DbContext
             entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
             entity.Property(e => e.GraduationYear).HasColumnName("graduation_year");
             entity.Property(e => e.Institution)
-                .HasMaxLength(255)
+                .HasMaxLength(100)
                 .HasColumnName("institution");
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
@@ -223,16 +166,14 @@ public partial class PortafolioDbContext : DbContext
 
             entity.ToTable("experiences");
 
-            entity.HasIndex(e => e.Code, "experiences_code_key").IsUnique();
-
-            entity.HasIndex(e => e.ProfileId, "idx_experiences_profile");
+            entity.HasIndex(e => e.ProfileId, "idx_experiences_profile_id");
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
-            entity.Property(e => e.Code)
-                .HasMaxLength(50)
-                .HasColumnName("code");
+            entity.Property(e => e.Collapse)
+                .HasDefaultValue(false)
+                .HasColumnName("collapse");
             entity.Property(e => e.Company)
                 .HasMaxLength(255)
                 .HasColumnName("company");
@@ -245,6 +186,7 @@ public partial class PortafolioDbContext : DbContext
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
             entity.Property(e => e.ProfileId).HasColumnName("profile_id");
+            entity.Property(e => e.Responsibility).HasColumnName("responsibility");
             entity.Property(e => e.Role)
                 .HasMaxLength(255)
                 .HasColumnName("role");
@@ -258,47 +200,15 @@ public partial class PortafolioDbContext : DbContext
                 .HasConstraintName("experiences_profile_id_fkey");
         });
 
-        modelBuilder.Entity<ExperienceResponsibility>(entity =>
+        modelBuilder.Entity<ExperienceSkill>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("experience_responsibilities_pkey");
+            entity.HasKey(e => e.Id).HasName("experience_skills_pkey");
 
-            entity.ToTable("experience_responsibilities");
+            entity.ToTable("experience_skills");
 
-            entity.HasIndex(e => e.ExperienceId, "idx_experience_responsibilities_experience");
+            entity.HasIndex(e => e.SkillId, "idx_experience_skills_skill_id");
 
-            entity.Property(e => e.Id)
-                .HasDefaultValueSql("gen_random_uuid()")
-                .HasColumnName("id");
-            entity.Property(e => e.Content).HasColumnName("content");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("created_at");
-            entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-            entity.Property(e => e.ExperienceId).HasColumnName("experience_id");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("is_active");
-            entity.Property(e => e.Position).HasColumnName("position");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("updated_at");
-
-            entity.HasOne(d => d.Experience).WithMany(p => p.ExperienceResponsibilities)
-                .HasForeignKey(d => d.ExperienceId)
-                .HasConstraintName("experience_responsibilities_experience_id_fkey");
-        });
-
-        modelBuilder.Entity<ExperienceTechnology>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("experience_technologies_pkey");
-
-            entity.ToTable("experience_technologies");
-
-            entity.HasIndex(e => e.ExperienceId, "idx_experience_technologies_experience");
-
-            entity.HasIndex(e => e.SkillId, "idx_experience_technologies_skill");
-
-            entity.HasIndex(e => new { e.ExperienceId, e.SkillId }, "uq_experience_technology").IsUnique();
+            entity.HasIndex(e => new { e.ExperienceId, e.SkillId }, "uq_experience_skill").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
@@ -307,24 +217,25 @@ public partial class PortafolioDbContext : DbContext
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
+            entity.Property(e => e.MonthsExperience).HasColumnName("months_experience");
             entity.Property(e => e.SkillId).HasColumnName("skill_id");
 
-            entity.HasOne(d => d.Experience).WithMany(p => p.ExperienceTechnologies)
+            entity.HasOne(d => d.Experience).WithMany(p => p.ExperienceSkills)
                 .HasForeignKey(d => d.ExperienceId)
-                .HasConstraintName("experience_technologies_experience_id_fkey");
+                .HasConstraintName("experience_skills_experience_id_fkey");
 
-            entity.HasOne(d => d.Skill).WithMany(p => p.ExperienceTechnologies)
+            entity.HasOne(d => d.Skill).WithMany(p => p.ExperienceSkills)
                 .HasForeignKey(d => d.SkillId)
-                .HasConstraintName("experience_technologies_skill_id_fkey");
+                .HasConstraintName("experience_skills_skill_id_fkey");
         });
 
-        modelBuilder.Entity<Language>(entity =>
+        modelBuilder.Entity<Other>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("languages_pkey");
+            entity.HasKey(e => e.Id).HasName("others_pkey");
 
-            entity.ToTable("languages");
+            entity.ToTable("others");
 
-            entity.HasIndex(e => e.ProfileId, "idx_languages_profile");
+            entity.HasIndex(e => e.ProfileId, "idx_others_profile_id");
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
@@ -337,20 +248,17 @@ public partial class PortafolioDbContext : DbContext
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name");
-            entity.Property(e => e.Level)
-                .HasMaxLength(10)
-                .HasColumnName("level");
             entity.Property(e => e.ProfileId).HasColumnName("profile_id");
+            entity.Property(e => e.Text)
+                .HasMaxLength(50)
+                .HasColumnName("text");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("updated_at");
 
-            entity.HasOne(d => d.Profile).WithMany(p => p.Languages)
+            entity.HasOne(d => d.Profile).WithMany(p => p.Others)
                 .HasForeignKey(d => d.ProfileId)
-                .HasConstraintName("languages_profile_id_fkey");
+                .HasConstraintName("others_profile_id_fkey");
         });
 
         modelBuilder.Entity<Profile>(entity =>
@@ -366,94 +274,38 @@ public partial class PortafolioDbContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");
             entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-            entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.FullName)
                 .HasMaxLength(255)
                 .HasColumnName("full_name");
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
-            entity.Property(e => e.Title)
-                .HasMaxLength(255)
-                .HasColumnName("title");
+            entity.Property(e => e.Presentation).HasColumnName("presentation");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("updated_at");
+            entity.Property(e => e.WebTitle)
+                .HasMaxLength(255)
+                .HasColumnName("web_title");
+            entity.Property(e => e.WorkPosition)
+                .HasMaxLength(255)
+                .HasColumnName("work_position");
         });
 
-        modelBuilder.Entity<Skill>(entity =>
+        modelBuilder.Entity<Project>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("skill_pkey");
+            entity.HasKey(e => e.Id).HasName("projects_pkey");
 
-            entity.ToTable("skill");
+            entity.ToTable("projects");
 
-            entity.HasIndex(e => e.Code, "skill_code_key").IsUnique();
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Code)
-                .HasMaxLength(50)
-                .HasColumnName("code");
-            entity.Property(e => e.Icon)
-                .HasMaxLength(50)
-                .HasColumnName("icon");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("is_active");
-            entity.Property(e => e.IsVisibleGral)
-                .HasDefaultValue(true)
-                .HasColumnName("is_visible_gral");
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .HasColumnName("name");
-            entity.Property(e => e.SkillCategoryId).HasColumnName("skill_category_id");
-
-            entity.HasOne(d => d.SkillCategory).WithMany(p => p.Skills)
-                .HasForeignKey(d => d.SkillCategoryId)
-                .HasConstraintName("skill_skill_category_id_fkey");
-        });
-
-        modelBuilder.Entity<SkillCategory>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("skill_category_pkey");
-
-            entity.ToTable("skill_category");
-
-            entity.HasIndex(e => e.ProfileId, "idx_skill_category_profile");
-
-            entity.HasIndex(e => e.Code, "skill_category_code_key").IsUnique();
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Code)
-                .HasMaxLength(50)
-                .HasColumnName("code");
-            entity.Property(e => e.Icon)
-                .HasMaxLength(50)
-                .HasColumnName("icon");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("is_active");
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .HasColumnName("name");
-            entity.Property(e => e.ProfileId).HasColumnName("profile_id");
-
-            entity.HasOne(d => d.Profile).WithMany(p => p.SkillCategories)
-                .HasForeignKey(d => d.ProfileId)
-                .HasConstraintName("skill_category_profile_id_fkey");
-        });
-
-        modelBuilder.Entity<Summary>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("summaries_pkey");
-
-            entity.ToTable("summaries");
-
-            entity.HasIndex(e => e.ProfileId, "idx_summaries_profile");
+            entity.HasIndex(e => e.ProfileId, "idx_projects_profile_id");
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .HasColumnName("id");
-            entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.Content)
+                .HasMaxLength(255)
+                .HasColumnName("content");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");
@@ -461,15 +313,146 @@ public partial class PortafolioDbContext : DbContext
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
-            entity.Property(e => e.Position).HasColumnName("position");
             entity.Property(e => e.ProfileId).HasColumnName("profile_id");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("updated_at");
 
-            entity.HasOne(d => d.Profile).WithMany(p => p.Summaries)
+            entity.HasOne(d => d.Profile).WithMany(p => p.Projects)
                 .HasForeignKey(d => d.ProfileId)
-                .HasConstraintName("summaries_profile_id_fkey");
+                .HasConstraintName("projects_profile_id_fkey");
+        });
+
+        modelBuilder.Entity<ProjectSkill>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("project_skills_pkey");
+
+            entity.ToTable("project_skills");
+
+            entity.HasIndex(e => e.SkillId, "idx_project_skills_skill_id");
+
+            entity.HasIndex(e => new { e.ProjectId, e.SkillId }, "uq_project_skill").IsUnique();
+
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("gen_random_uuid()")
+                .HasColumnName("id");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasColumnName("is_active");
+            entity.Property(e => e.MonthsExperience).HasColumnName("months_experience");
+            entity.Property(e => e.ProjectId).HasColumnName("project_id");
+            entity.Property(e => e.SkillId).HasColumnName("skill_id");
+
+            entity.HasOne(d => d.Project).WithMany(p => p.ProjectSkills)
+                .HasForeignKey(d => d.ProjectId)
+                .HasConstraintName("project_skills_project_id_fkey");
+
+            entity.HasOne(d => d.Skill).WithMany(p => p.ProjectSkills)
+                .HasForeignKey(d => d.SkillId)
+                .HasConstraintName("project_skills_skill_id_fkey");
+        });
+
+        modelBuilder.Entity<Skill>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("skills_pkey");
+
+            entity.ToTable("skills");
+
+            entity.HasIndex(e => e.FatherId, "idx_skills_father_id");
+
+            entity.HasIndex(e => e.ProfileId, "idx_skills_profile_id");
+
+            entity.HasIndex(e => new { e.SkillCategoryId, e.FatherId, e.Name }, "uq_skill_name").IsUnique();
+
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("gen_random_uuid()")
+                .HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
+            entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+            entity.Property(e => e.FatherId).HasColumnName("father_id");
+            entity.Property(e => e.Icon)
+                .HasMaxLength(50)
+                .HasColumnName("icon");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasColumnName("is_active");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .HasColumnName("name");
+            entity.Property(e => e.ProfileId).HasColumnName("profile_id");
+            entity.Property(e => e.SkillCategoryId).HasColumnName("skill_category_id");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.Father).WithMany(p => p.InverseFather)
+                .HasForeignKey(d => d.FatherId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("skills_father_id_fkey");
+
+            entity.HasOne(d => d.Profile).WithMany(p => p.Skills)
+                .HasForeignKey(d => d.ProfileId)
+                .HasConstraintName("skills_profile_id_fkey");
+
+            entity.HasOne(d => d.SkillCategory).WithMany(p => p.Skills)
+                .HasForeignKey(d => d.SkillCategoryId)
+                .HasConstraintName("skills_skill_category_id_fkey");
+        });
+
+        modelBuilder.Entity<SkillsCategory>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("skills_categories_pkey");
+
+            entity.ToTable("skills_categories");
+
+            entity.HasIndex(e => new { e.ProfileId, e.Name }, "uq_skill_category_name").IsUnique();
+
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("gen_random_uuid()")
+                .HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
+            entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+            entity.Property(e => e.Icon)
+                .HasMaxLength(50)
+                .HasColumnName("icon");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasColumnName("is_active");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .HasColumnName("name");
+            entity.Property(e => e.ProfileId).HasColumnName("profile_id");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.Profile).WithMany(p => p.SkillsCategories)
+                .HasForeignKey(d => d.ProfileId)
+                .HasConstraintName("skills_categories_profile_id_fkey");
+        });
+
+        modelBuilder.Entity<TypeContact>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("type_contacts_pkey");
+
+            entity.ToTable("type_contacts");
+
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("gen_random_uuid()")
+                .HasColumnName("id");
+            entity.Property(e => e.Icon)
+                .HasMaxLength(50)
+                .HasColumnName("icon");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasColumnName("is_active");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .HasColumnName("name");
         });
 
         OnModelCreatingPartial(modelBuilder);

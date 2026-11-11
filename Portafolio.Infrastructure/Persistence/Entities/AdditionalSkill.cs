@@ -1,16 +1,17 @@
-﻿namespace Portafolio.Infrastructure.Persistence.Entities;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class Language
+namespace Portafolio.Infrastructure.Persistence.Entities;
+
+public partial class AdditionalSkill
 {
     public Guid Id { get; set; }
 
     public Guid ProfileId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public Guid SkillId { get; set; }
 
-    public string? Level { get; set; }
-
-    public string? Description { get; set; }
+    public string? Content { get; set; }
 
     public bool IsActive { get; set; }
 
@@ -21,4 +22,6 @@ public partial class Language
     public DateTime? DeletedAt { get; set; }
 
     public virtual Profile Profile { get; set; } = null!;
+
+    public virtual Skill Skill { get; set; } = null!;
 }

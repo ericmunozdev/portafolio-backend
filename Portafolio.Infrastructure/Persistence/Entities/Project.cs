@@ -1,12 +1,13 @@
-﻿namespace Portafolio.Infrastructure.Persistence.Entities;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class Additional
+namespace Portafolio.Infrastructure.Persistence.Entities;
+
+public partial class Project
 {
     public Guid Id { get; set; }
 
     public Guid ProfileId { get; set; }
-
-    public string Code { get; set; } = null!;
 
     public string Content { get; set; } = null!;
 
@@ -18,7 +19,7 @@ public partial class Additional
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual ICollection<AdditionalTechnology> AdditionalTechnologies { get; set; } = new List<AdditionalTechnology>();
-
     public virtual Profile Profile { get; set; } = null!;
+
+    public virtual ICollection<ProjectSkill> ProjectSkills { get; set; } = new List<ProjectSkill>();
 }

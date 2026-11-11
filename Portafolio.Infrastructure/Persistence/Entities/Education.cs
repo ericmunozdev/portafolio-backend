@@ -1,4 +1,7 @@
-﻿namespace Portafolio.Infrastructure.Persistence.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Portafolio.Infrastructure.Persistence.Entities;
 
 public partial class Education
 {
