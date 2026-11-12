@@ -1,8 +1,8 @@
 ﻿namespace Portafolio.Application.DTOs
 {
-    public class SkillCategoryDto
+    public class CategorySkillDto
     {
         public string Category { get; set; } = string.Empty;
-        public List<string> Items { get; set; } = [];
+        public List<SkillDto> Skills { get; set; } = [];
     }
 }

@@ -9,34 +9,35 @@ namespace Portafolio.Infrastructure.Repositories
     {
         public async Task<List<ExperienceDto>> GetByProfileIdAsync(Guid profileId)
         {
-            return await context.Experiences
-                .Where(x => x.ProfileId == profileId && x.IsActive)
-                .OrderByDescending(x => x.StartDate)
-                .Select(x => new ExperienceDto
-                {
-                    Company = x.Company,
+            //return await context.Experiences
+            //    .Where(x => x.ProfileId == profileId && x.IsActive)
+            //    .OrderByDescending(x => x.StartDate)
+            //    .Select(x => new ExperienceDto
+            //    {
+            //        Company = x.Company,
 
-                    Role = x.Role,
+            //        Role = x.Role,
 
-                    StartDate = x.StartDate.ToString("MMM yyyy"),
+            //        StartDate = x.StartDate.ToString("MMM yyyy"),
 
-                    EndDate = x.EndDate.HasValue
-                        ? x.EndDate.Value.ToString("MMM yyyy")
-                        : "Actualidad",
+            //        EndDate = x.EndDate.HasValue
+            //            ? x.EndDate.Value.ToString("MMM yyyy")
+            //            : "Actualidad",
 
-                    Responsibilities = x.ExperienceResponsibilities
-                        .Where(r => r.IsActive)
-                        .OrderBy(r => r.Position)
-                        .Select(r => r.Content)
-                        .ToList(),
+            //        Responsibilities = x.ExperienceResponsibilities
+            //            .Where(r => r.IsActive)
+            //            .OrderBy(r => r.Position)
+            //            .Select(r => r.Content)
+            //            .ToList(),
 
-                    Skills = x.ExperienceTechnologies
-                        .Where(t => t.IsActive)
-                        .Select(t => t.Skill.Name)
-                        .OrderBy(t => t)
-                        .ToList()
-                })
-                .ToListAsync();
+            //        Skills = x.ExperienceTechnologies
+            //            .Where(t => t.IsActive)
+            //            .Select(t => t.Skill.Name)
+            //            .OrderBy(t => t)
+            //            .ToList()
+            //    })
+            //    .ToListAsync();
+            return await Task.FromResult(new List<ExperienceDto>());
         }
     }
 }

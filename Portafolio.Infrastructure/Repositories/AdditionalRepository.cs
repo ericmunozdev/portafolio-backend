@@ -9,20 +9,21 @@ namespace Portafolio.Infrastructure.Repositories
     {
         public async Task<List<AdditionalDto>> GetByProfileIdAsync(Guid profileId)
         {
-            return await context.Additionals
-                .AsNoTracking()
-                .Where(x => x.ProfileId == profileId && x.IsActive)
-                .Select(x => new AdditionalDto
-                {
-                    Description = x.Content,
+            //return await context.Additionals
+            //    .AsNoTracking()
+            //    .Where(x => x.ProfileId == profileId && x.IsActive)
+            //    .Select(x => new AdditionalDto
+            //    {
+            //        Description = x.Content,
 
-                    Skills = x.AdditionalTechnologies
-                        .Where(t => t.IsActive)
-                        .Select(t => t.Skill.Name)
-                        .OrderBy(t => t)
-                        .ToList()
-                })
-                .ToListAsync();
+            //        Skills = x.AdditionalTechnologies
+            //            .Where(t => t.IsActive)
+            //            .Select(t => t.Skill.Name)
+            //            .OrderBy(t => t)
+            //            .ToList()
+            //    })
+            //    .ToListAsync();
+            return await Task.FromResult(new List<AdditionalDto>());
         }
     }
 }

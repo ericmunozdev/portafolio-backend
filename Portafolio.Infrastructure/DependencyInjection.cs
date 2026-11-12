@@ -12,14 +12,11 @@ namespace Portafolio.Infrastructure
             services.AddAutoMapper(typeof(MappingProfile));
 
             services.AddScoped<IProfileRepository, ProfileRepository>();
-            services.AddScoped<ISummaryRepository, SummaryRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<IEducationRepository, EducationRepository>();
-            services.AddScoped<ISkillRepository, SkillRepository>();
+            services.AddScoped<ICategorySkillRepository, CategorySkillRepository>();
             services.AddScoped<IExperienceRepository, ExperienceRepository>();
             services.AddScoped<IAdditionalRepository, AdditionalRepository>();
-            services.AddScoped<ILanguageRepository, LanguageRepository>();
-            services.AddScoped<IConditionRepository, ConditionRepository>();
 
             return services;
         }
