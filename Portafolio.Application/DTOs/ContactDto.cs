@@ -2,9 +2,14 @@
 {
     public class ContactDto
     {
-        public string Type { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
+        public string? TypeIcon { get; set; }
+        
+        public string TypeName { get; set; } = string.Empty;
+        
+        public string DisplayName { get; set; } = string.Empty;
+        
         public string Value { get; set; } = string.Empty;
-        public string? Icon { get; set; }
+        
+        public short Position { get; set; }
     }
 }
