@@ -3,12 +3,19 @@ using Portafolio.Application.Services;
 
 namespace Portafolio.WebApi.Controllers.V1
 {
+    /// <summary>
+    /// Controlador que expone la información del currículum de un perfil.
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class CurriculumController : ControllerBase
     {
         private readonly ICurriculumService _curriculumService;
 
+        /// <summary>
+        /// Inicializa una nueva instancia de <see cref="CurriculumController"/>.
+        /// </summary>
+        /// <param name="curriculumService">Servicio encargado de obtener el currículum.</param>
         public CurriculumController(ICurriculumService curriculumService)
         {
             _curriculumService = curriculumService;
