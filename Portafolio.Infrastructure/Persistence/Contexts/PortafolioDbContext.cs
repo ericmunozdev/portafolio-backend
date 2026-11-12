@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Portafolio.Infrastructure.Persistence.Entities;
 
 namespace Portafolio.Infrastructure.Persistence.Contexts;

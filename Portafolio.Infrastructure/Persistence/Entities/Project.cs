@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Portafolio.Infrastructure.Persistence.Entities;
+﻿namespace Portafolio.Infrastructure.Persistence.Entities;
 
 public partial class Project
 {
