@@ -9,5 +9,6 @@
         public List<ExperienceDto> Experience { get; set; } = [];
         public List<ProjectSkillDto> ProjectSkill { get; set; } = [];
         public List<AdditionalSkillDto> AdditionalSkill { get; set; } = [];
+        public List<OtherDto> Other { get; set; } = [];
     }
 }

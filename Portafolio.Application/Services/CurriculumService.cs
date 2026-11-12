@@ -10,7 +10,8 @@ namespace Portafolio.Application.Services
         ICategorySkillRepository categorySkillRepository,
         IExperienceRepository experienceRepository,
         IProjectSkillRepository projectSkillRepository,
-        IAdditionalSkillRepository additionalSkillRepository
+        IAdditionalSkillRepository additionalSkillRepository,
+        IOtherRepository otherRepository
         ) : ICurriculumService
     {
 
@@ -28,6 +29,7 @@ namespace Portafolio.Application.Services
             var experience = await experienceRepository.GetByProfileIdAsync(id);
             var projectSkill = await projectSkillRepository.GetByProfileIdAsync(id);
             var additionalSkill = await additionalSkillRepository.GetByProfileIdAsync(id);
+            var other = await otherRepository.GetByProfileIdAsync(id);
 
             return new CurriculumDto
             {
@@ -38,6 +40,7 @@ namespace Portafolio.Application.Services
                 Experience = experience,
                 ProjectSkill = projectSkill,
                 AdditionalSkill = additionalSkill,
+                Other = other
             };
         }
     }
