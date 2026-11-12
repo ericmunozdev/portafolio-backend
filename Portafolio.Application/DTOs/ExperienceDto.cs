@@ -8,10 +8,12 @@
 
         public string StartDate { get; set; } = string.Empty;
 
-        public string? EndDate { get; set; }
+        public string EndDate { get; set; } = string.Empty;
 
-        public List<string> Responsibilities { get; set; } = [];
+        public string Responsibility { get; set; } = string.Empty;
 
-        public List<string> Skills { get; set; } = [];
+        public bool Collapse { get; set; }
+
+        public List<SkillDto> Skills { get; set; } = [];
     }
 }

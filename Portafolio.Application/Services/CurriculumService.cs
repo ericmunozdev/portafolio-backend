@@ -8,8 +8,8 @@ namespace Portafolio.Application.Services
         //ISummaryRepository summaryRepository,
         IContactRepository contactRepository,
         IEducationRepository educationRepository,
-        ICategorySkillRepository categorySkillRepository
-        //IExperienceRepository experienceRepository,
+        ICategorySkillRepository categorySkillRepository,
+        IExperienceRepository experienceRepository
         //IAdditionalRepository additionalRepository,
         //ILanguageRepository languageRepository,
         //IConditionRepository conditionRepository
@@ -28,7 +28,7 @@ namespace Portafolio.Application.Services
             var contact = await contactRepository.GetByProfileIdAsync(id);
             var education = await educationRepository.GetByProfileIdAsync(id);
             var categorySkill = await categorySkillRepository.GetByProfileIdAsync(id);
-            //var experience = await experienceRepository.GetByProfileIdAsync(id);
+            var experience = await experienceRepository.GetByProfileIdAsync(id);
             //var additional = await additionalRepository.GetByProfileIdAsync(id);
             //var language = await languageRepository.GetByProfileIdAsync(id);
             //var condition = await conditionRepository.GetByProfileIdAsync(id);
@@ -38,8 +38,8 @@ namespace Portafolio.Application.Services
                 Profile = profile,
                 Contact = contact,
                 Education = education,
-                CategorySkill = categorySkill
-                //Experience = experience,
+                CategorySkill = categorySkill,
+                Experience = experience,
                 //Additional = additional,
                 //Language = language,
                 //Condition = condition
