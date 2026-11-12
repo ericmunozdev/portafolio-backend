@@ -8,7 +8,6 @@
         public List<CategorySkillDto> CategorySkill { get; set; } = [];
         public List<ExperienceDto> Experience { get; set; } = [];
         public List<ProjectSkillDto> ProjectSkill { get; set; } = [];
-
-        //public List<AdditionalDto> Additional { get; set; } = [];
+        public List<AdditionalSkillDto> AdditionalSkill { get; set; } = [];
     }
 }
