@@ -98,9 +98,6 @@ public partial class PortafolioDbContext : DbContext
             entity.Property(e => e.DisplayName)
                 .HasMaxLength(50)
                 .HasColumnName("display_name");
-            entity.Property(e => e.Icon)
-                .HasMaxLength(50)
-                .HasColumnName("icon");
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
@@ -416,9 +413,6 @@ public partial class PortafolioDbContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");
             entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-            entity.Property(e => e.Icon)
-                .HasMaxLength(50)
-                .HasColumnName("icon");
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");

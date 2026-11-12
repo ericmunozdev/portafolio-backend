@@ -11,8 +11,6 @@ public partial class Contact
 
     public Guid TypeContactId { get; set; }
 
-    public string? Icon { get; set; }
-
     public string DisplayName { get; set; } = null!;
 
     public string Value { get; set; } = null!;
