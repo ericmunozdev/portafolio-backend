@@ -13,13 +13,12 @@
         /// <param name="policy">Nombre de la política de CORS a registrar.</param>
         /// <returns>La misma colección de servicios para permitir el encadenamiento.</returns>
         /// <remarks>
-        /// Si no hay orígenes configurados se permite el frontend de desarrollo en
-        /// <c>http://localhost:4200</c>. El valor <c>*</c> habilita cualquier origen.
+        /// Si no hay orígenes configurados, la política no permite ninguno. El valor
+        /// <c>*</c> habilita cualquier origen.
         /// </remarks>
         public static IServiceCollection AddCorsExtensions(this IServiceCollection services, IConfiguration configuration, string policy)
         {
-            var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
-                                 ?? ["http://localhost:4200"];
+            var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 
             services.AddCors(options =>
             {
