@@ -19,6 +19,7 @@ El objetivo del proyecto es servir como backend del portafolio personal y, al mi
 - Respuestas mediante DTOs, sin exponer entidades de persistencia.
 - Filtrado de registros activos (soft delete) en todas las consultas.
 - Documentación interactiva con Swagger/OpenAPI.
+- CORS configurable por orígenes para consumir la API desde el frontend.
 - Arquitectura por capas con inversión de dependencias.
 
 ---
@@ -252,6 +253,32 @@ La API queda disponible en:
 - HTTPS: `https://localhost:7184`
 - Swagger UI: `https://localhost:7184/swagger`
 
+### 4. Configurar CORS para el frontend
+
+`Program.cs` registra la política `corspolicy` mediante `AddCorsExtensions(...)` y la aplica antes de `UseAuthorization()`. Los orígenes permitidos se leen de `appsettings.json`:
+
+```json
+{
+  "Cors": {
+    "AllowedOrigins": [
+      "http://localhost:4200"
+    ]
+  }
+}
+```
+
+Para desplegar el frontend en otro dominio, añade su origen a la lista (o usa `*` para permitir cualquier origen). Si la clave no está configurada, la API no permite ningún origen. También se puede sobrescribir por variable de entorno: `Cors__AllowedOrigins__0=https://mi-portafolio.example`.
+
+### 5. Certificado HTTPS de desarrollo
+
+El perfil `https` de `launchSettings.json` expone `https://localhost:7184`. Si el navegador muestra `NET::ERR_CERT_AUTHORITY_INVALID`, confía el certificado de desarrollo:
+
+```bash
+dotnet dev-certs https --trust
+```
+
+El estado se comprueba con `dotnet dev-certs https --check --trust`. El frontend apunta a `https://localhost:7184/api/v1/Curriculum/{id}` desde su `public/config.json`; con `dataSource: "fallback"` sigue mostrando el JSON local si falta el certificado o la API no está arrancada.
+
 ---
 
 ## Scaffold de la base de datos
@@ -327,6 +354,7 @@ portafolio-backend/
 - [x] API de currículum completa.
 - [x] Habilidades jerárquicas por categoría, experiencia, proyecto y conocimiento adicional.
 - [x] Documentación Swagger.
+- [x] CORS configurable para el frontend y certificado HTTPS de desarrollo.
 - [ ] Pruebas unitarias e integración.
 - [ ] Autenticación y autorización.
 - [ ] Endpoints de escritura (CRUD).
