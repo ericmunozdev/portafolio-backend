@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Portafolio.Application.Interfaces;
-using Portafolio.Infrastructure.Mappings;
 using Portafolio.Infrastructure.Repositories;
 
 namespace Portafolio.Infrastructure
@@ -9,8 +8,6 @@ namespace Portafolio.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
-
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<IEducationRepository, EducationRepository>();
