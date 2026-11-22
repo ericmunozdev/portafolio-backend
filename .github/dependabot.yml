@@ -5,18 +5,7 @@
 
 version: 2
 updates:
-  - package-ecosystem: 'npm'
-    directory: '/'
-    schedule:
-      interval: 'monthly' # día 1 de cada mes
-      time: '06:17'
-      timezone: 'Etc/UTC'
-    labels: ['dependencies', 'security']
-    commit-message:
-      prefix: 'chore(deps)'
-    open-pull-requests-limit: 5
-
-  - package-ecosystem: 'github-actions'
+  - package-ecosystem: 'nuget'
     directory: '/'
     schedule:
       interval: 'monthly' # día 1 de cada mes
