@@ -32,7 +32,7 @@ El objetivo del proyecto es servir como backend del portafolio personal y, al mi
 | Entity Framework Core 9 | Acceso a datos |
 | Npgsql.EntityFrameworkCore.PostgreSQL | Proveedor de PostgreSQL |
 | PostgreSQL | Base de datos |
-| AutoMapper | Mapeo entidad → DTO |
+| Proyecciones LINQ de EF Core | Mapeo entidad → DTO |
 | Swashbuckle.AspNetCore | Documentación Swagger/OpenAPI |
 
 ---
@@ -66,7 +66,7 @@ flowchart LR
 | **Portafolio.WebApi** | Punto de entrada HTTP, controladores, configuración de Swagger, CORS y composición de dependencias. |
 | **Portafolio.Application** | Contratos (interfaces de repositorios), DTOs y lógica de orquestación (`CurriculumService`). No conoce EF Core ni PostgreSQL. |
 | **Portafolio.Domain** | Capa reservada para el modelo de dominio. Actualmente no contiene tipos propios. |
-| **Portafolio.Infrastructure** | Implementación de repositorios, `DbContext`, entidades scaffolded, mapeos de AutoMapper y helpers de persistencia. |
+| **Portafolio.Infrastructure** | Implementación de repositorios, `DbContext`, entidades scaffolded, proyecciones entidad → DTO y helpers de persistencia. |
 
 ### Regla de dependencias
 
@@ -129,7 +129,7 @@ Cada capa expone su propio método de extensión:
 ### Proyección y `AsNoTracking`
 
 - Las consultas de solo lectura usan `AsNoTracking()` para evitar el tracking innecesario.
-- Los mapeos simples usan `ProjectTo<T>()` de AutoMapper, que traduce el mapeo a SQL.
+- Los mapeos simples usan proyecciones `Select` de LINQ, que EF Core traduce a SQL.
 - Los DTOs con lógica adicional (por ejemplo, árboles de habilidades o fechas formateadas) usan proyección explícita en memoria después de cargar solo lo necesario.
 
 ### Soft delete
@@ -300,7 +300,6 @@ dotnet ef dbcontext scaffold "Host=localhost;Port=5432;Database=portafolio;Usern
 dotnet add Portafolio.Infrastructure package Microsoft.EntityFrameworkCore
 dotnet add Portafolio.Infrastructure package Microsoft.EntityFrameworkCore.Design
 dotnet add Portafolio.Infrastructure package Npgsql.EntityFrameworkCore.PostgreSQL
-dotnet add Portafolio.Infrastructure package AutoMapper
 
 dotnet add Portafolio.WebApi package Microsoft.EntityFrameworkCore.Design
 dotnet add Portafolio.WebApi package Swashbuckle.AspNetCore
@@ -333,8 +332,6 @@ portafolio-backend/
 ├── Portafolio.Infrastructure/
 │   ├── Common/
 │   │   └── SkillTreeBuilder.cs
-│   ├── Mappings/
-│   │   └── MappingProfile.cs
 │   ├── Persistence/
 │   │   ├── Contexts/
 │   │   └── Entities/
