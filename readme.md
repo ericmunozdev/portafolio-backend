@@ -19,6 +19,7 @@ El objetivo del proyecto es servir como backend del portafolio personal y, al mi
 - Respuestas mediante DTOs, sin exponer entidades de persistencia.
 - Filtrado de registros activos (soft delete) en todas las consultas.
 - Documentación interactiva con Swagger/OpenAPI.
+- CORS configurable por orígenes para consumir la API desde el frontend.
 - Arquitectura por capas con inversión de dependencias.
 
 ---
@@ -240,7 +241,7 @@ Edita `Portafolio.WebApi/appsettings.json`:
 
 ### 3. Configurar CORS
 
-Los orígenes permitidos se definen en `Portafolio.WebApi/appsettings.json`:
+`Program.cs` registra la política `corspolicy` mediante `AddCorsExtensions(...)` y la aplica antes de `UseAuthorization()`. Los orígenes permitidos se definen en `Portafolio.WebApi/appsettings.json`:
 
 ```json
 {
@@ -253,7 +254,7 @@ Los orígenes permitidos se definen en `Portafolio.WebApi/appsettings.json`:
 }
 ```
 
-Si no se configuran orígenes, la política de CORS no permite ninguno. El valor `*` habilita cualquier origen.
+Si no se configuran orígenes, la política de CORS no permite ninguno. El valor `*` habilita cualquier origen. También se puede sobrescribir por variable de entorno: `Cors__AllowedOrigins__0=https://mi-portafolio.example`.
 
 ### 4. Restaurar y ejecutar
 
@@ -268,6 +269,16 @@ La API queda disponible en:
 - HTTP: `http://localhost:5141`
 - HTTPS: `https://localhost:7184`
 - Swagger UI: `https://localhost:7184/swagger`
+
+### 5. Certificado HTTPS de desarrollo
+
+El perfil `https` de `launchSettings.json` expone `https://localhost:7184`. Si el navegador muestra `NET::ERR_CERT_AUTHORITY_INVALID`, confía el certificado de desarrollo:
+
+```bash
+dotnet dev-certs https --trust
+```
+
+El estado se comprueba con `dotnet dev-certs https --check --trust`. El frontend apunta a `https://localhost:7184/api/v1/Curriculum/{id}` desde su `public/config.json`; con `dataSource: "fallback"` sigue mostrando el JSON local si falta el certificado o la API no está arrancada.
 
 ---
 
@@ -344,6 +355,7 @@ portafolio-backend/
 - [x] API de currículum completa.
 - [x] Habilidades jerárquicas por categoría, experiencia, proyecto y conocimiento adicional.
 - [x] Documentación Swagger.
+- [x] CORS configurable para el frontend y certificado HTTPS de desarrollo.
 - [ ] Pruebas unitarias e integración.
 - [ ] Autenticación y autorización.
 - [ ] Endpoints de escritura (CRUD).
