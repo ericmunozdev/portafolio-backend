@@ -2,6 +2,8 @@ using Portafolio.Application;
 using Portafolio.Infrastructure;
 using Portafolio.WebApi.Extensions;
 
+const string corsPolicy = "corspolicy";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +17,7 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 builder.Services.AddDbContextExtensions(builder.Configuration);
 builder.Services.AddSwaggerExtensions(builder.Configuration);
+builder.Services.AddCorsExtensions(builder.Configuration, corsPolicy);
 
 var app = builder.Build();
 
@@ -25,9 +28,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("corspolicy");
-
 app.UseHttpsRedirection();
+
+app.UseCors(corsPolicy);
 
 app.UseAuthorization();
 

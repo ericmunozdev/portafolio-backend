@@ -9,7 +9,7 @@ namespace Portafolio.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
 
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();

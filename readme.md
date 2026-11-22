@@ -2,7 +2,7 @@
 
 ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
-![Entity Framework Core](https://img.shields.io/badge/EF%20Core-8.0-512BD4)
+![Entity Framework Core](https://img.shields.io/badge/EF%20Core-9.0-512BD4)
 ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?logo=swagger&logoColor=black)
 
 API REST desarrollada con **ASP.NET Core 8** que expone, en una sola respuesta, toda la información de un currículum/portafolio: perfil, contactos, educación, habilidades, experiencia laboral, proyectos, conocimientos adicionales y otra información complementaria.
@@ -28,7 +28,7 @@ El objetivo del proyecto es servir como backend del portafolio personal y, al mi
 | Tecnología | Uso |
 |---|---|
 | .NET 8 / ASP.NET Core | Framework de la API |
-| Entity Framework Core 8 | Acceso a datos |
+| Entity Framework Core 9 | Acceso a datos |
 | Npgsql.EntityFrameworkCore.PostgreSQL | Proveedor de PostgreSQL |
 | PostgreSQL | Base de datos |
 | AutoMapper | Mapeo entidad → DTO |
@@ -238,7 +238,24 @@ Edita `Portafolio.WebApi/appsettings.json`:
 }
 ```
 
-### 3. Restaurar y ejecutar
+### 3. Configurar CORS
+
+Los orígenes permitidos se definen en `Portafolio.WebApi/appsettings.json`:
+
+```json
+{
+  "Cors": {
+    "AllowedOrigins": [
+      "http://localhost:4200",
+      "http://127.0.0.1:4200"
+    ]
+  }
+}
+```
+
+Si no se configuran orígenes, la política de CORS no permite ninguno. El valor `*` habilita cualquier origen.
+
+### 4. Restaurar y ejecutar
 
 ```bash
 dotnet restore
@@ -259,7 +276,7 @@ La API queda disponible en:
 El proyecto usa el enfoque *database-first*. Si el esquema cambia, regenera las entidades y el contexto:
 
 ```bash
-dotnet tool install --global dotnet-ef --version 8.0.27
+dotnet tool install --global dotnet-ef --version 9.0.23
 
 dotnet ef dbcontext scaffold "Host=localhost;Port=5432;Database=portafolio;Username=usr_portafolio;Password=secret" Npgsql.EntityFrameworkCore.PostgreSQL --project Portafolio.Infrastructure --startup-project Portafolio.WebApi --context PortafolioDbContext --context-dir Persistence/Contexts --output-dir Persistence/Entities --no-onconfiguring --force
 ```
@@ -272,7 +289,7 @@ dotnet ef dbcontext scaffold "Host=localhost;Port=5432;Database=portafolio;Usern
 dotnet add Portafolio.Infrastructure package Microsoft.EntityFrameworkCore
 dotnet add Portafolio.Infrastructure package Microsoft.EntityFrameworkCore.Design
 dotnet add Portafolio.Infrastructure package Npgsql.EntityFrameworkCore.PostgreSQL
-dotnet add Portafolio.Infrastructure package AutoMapper.Extensions.Microsoft.DependencyInjection
+dotnet add Portafolio.Infrastructure package AutoMapper
 
 dotnet add Portafolio.WebApi package Microsoft.EntityFrameworkCore.Design
 dotnet add Portafolio.WebApi package Swashbuckle.AspNetCore

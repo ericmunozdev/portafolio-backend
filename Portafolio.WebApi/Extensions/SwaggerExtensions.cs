@@ -1,6 +1,6 @@
-﻿using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi;
 using System.Reflection;
+using System.Text.Json.Nodes;
 
 namespace Portafolio.WebApi.Extensions
 {
@@ -31,14 +31,14 @@ namespace Portafolio.WebApi.Extensions
 
                 c.MapType<DateTime>(() => new OpenApiSchema
                 {
-                    Type = "string",
+                    Type = JsonSchemaType.String,
                     Format = "date"
                 });
 
                 c.MapType<TimeSpan>(() => new OpenApiSchema
                 {
-                    Type = "string",
-                    Example = new OpenApiString("00:00:00")
+                    Type = JsonSchemaType.String,
+                    Example = JsonValue.Create("00:00:00")
                 });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -54,19 +54,10 @@ namespace Portafolio.WebApi.Extensions
                     Scheme = "Bearer"
                 });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                c.AddSecurityRequirement(_ => new OpenApiSecurityRequirement()
                 {
                     {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
-                            Name = "Bearer",
-                            In = ParameterLocation.Header,
-                        },
+                        new OpenApiSecuritySchemeReference("Bearer"),
                         new List<string>()
                     }
                 });
