@@ -15,3 +15,15 @@ updates:
     commit-message:
       prefix: 'chore(deps)'
     open-pull-requests-limit: 5
+    ignore:
+      # El backend apunta a net8.0; estas versiones mayores exigen net10/net11.
+      - dependency-name: 'Microsoft.Extensions.DependencyInjection.Abstractions'
+        versions: ['11.x']
+      - dependency-name: 'Swashbuckle.AspNetCore'
+        versions: ['11.x']
+      - dependency-name: 'Microsoft.EntityFrameworkCore'
+        versions: ['11.x']
+      - dependency-name: 'Microsoft.EntityFrameworkCore.Design'
+        versions: ['11.x']
+      - dependency-name: 'Npgsql.EntityFrameworkCore.PostgreSQL'
+        versions: ['11.x']
