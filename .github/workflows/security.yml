@@ -12,6 +12,12 @@ on:
 permissions:
   contents: read
 
+# CodeQL must finish once started: a cancelled analysis uploads an empty SARIF
+# and GitHub records it as a failed analysis on the default branch.
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   codeql:
     name: CodeQL
