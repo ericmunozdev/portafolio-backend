@@ -319,6 +319,15 @@ dotnet add Portafolio.WebApi package Swashbuckle.AspNetCore
 
 ---
 
+## Seguridad y CI
+
+- **CodeQL**: análisis estático de C# en PRs, push a `main` y ejecución mensual.
+- **Dependabot**: actualizaciones mensuales de paquetes NuGet, además de alertas de seguridad.
+- **Auditoría de dependencias**: `dotnet list package --vulnerable --include-transitive` se ejecuta en el workflow de seguridad y deja el informe JSON como artifact/resumen.
+- **CI**: restore, build y tests (cuando existan proyectos de prueba) en GitHub Actions con permisos mínimos por job.
+
+---
+
 ## Estructura del repositorio
 
 ```text
@@ -353,6 +362,7 @@ portafolio-backend/
 - [x] Habilidades jerárquicas por categoría, experiencia, proyecto y conocimiento adicional.
 - [x] Documentación Swagger.
 - [x] CORS configurable para el frontend y certificado HTTPS de desarrollo.
+- [x] CodeQL, Dependabot y auditoría NuGet en GitHub Actions.
 - [ ] Pruebas unitarias e integración.
 - [ ] Autenticación y autorización.
 - [ ] Endpoints de escritura (CRUD).
