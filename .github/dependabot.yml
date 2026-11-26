@@ -16,10 +16,9 @@ updates:
       prefix: 'chore(deps)'
     open-pull-requests-limit: 5
     ignore:
-      # El backend apunta a net10.0; la rama 11.x exige net11 y queda fuera de alcance.
+      # EF Core y Npgsql 11.x exigen net11. DI.Abstractions se mantiene en 10.x
+      # para no desalinear el resto del stack. Swashbuckle 11.x sí admite net10.
       - dependency-name: 'Microsoft.Extensions.DependencyInjection.Abstractions'
-        versions: ['11.x']
-      - dependency-name: 'Swashbuckle.AspNetCore'
         versions: ['11.x']
       - dependency-name: 'Microsoft.EntityFrameworkCore'
         versions: ['11.x']

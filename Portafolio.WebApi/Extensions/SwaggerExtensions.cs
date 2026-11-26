@@ -38,7 +38,7 @@ namespace Portafolio.WebApi.Extensions
                 c.MapType<TimeSpan>(() => new OpenApiSchema
                 {
                     Type = JsonSchemaType.String,
-                    Example = JsonValue.Create("00:00:00")
+                    Examples = [JsonValue.Create("00:00:00")]
                 });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
