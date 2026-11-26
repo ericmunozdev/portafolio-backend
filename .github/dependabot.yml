@@ -16,7 +16,7 @@ updates:
       prefix: 'chore(deps)'
     open-pull-requests-limit: 5
     ignore:
-      # El backend apunta a net8.0; estas versiones mayores exigen net10/net11.
+      # El backend apunta a net10.0; la rama 11.x exige net11 y queda fuera de alcance.
       - dependency-name: 'Microsoft.Extensions.DependencyInjection.Abstractions'
         versions: ['11.x']
       - dependency-name: 'Swashbuckle.AspNetCore'
