@@ -1,13 +1,26 @@
 # API Portafolio
 
-![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
-![Entity Framework Core](https://img.shields.io/badge/EF%20Core-9.0-512BD4)
+![Entity Framework Core](https://img.shields.io/badge/EF%20Core-10.0-512BD4)
 ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?logo=swagger&logoColor=black)
 
-API REST desarrollada con **ASP.NET Core 8** que expone, en una sola respuesta, toda la información de un currículum/portafolio: perfil, contactos, educación, habilidades, experiencia laboral, proyectos, conocimientos adicionales y otra información complementaria.
+API REST desarrollada con **ASP.NET Core 10** que expone, en una sola respuesta, toda la información de un currículum/portafolio: perfil, contactos, educación, habilidades, experiencia laboral, proyectos, conocimientos adicionales y otra información complementaria.
 
 El objetivo del proyecto es servir como backend del portafolio personal y, al mismo tiempo, aplicar de forma práctica una arquitectura por capas con patrones de diseño habituales en aplicaciones .NET.
+
+---
+
+## Migración a .NET 10
+
+El runtime 10 ya estaba instalado; el bloqueo era el `<TargetFramework>net8.0</TargetFramework>` declarado en los cuatro proyectos. La migración se hizo de forma completa:
+
+- `net8.0` → `net10.0` en `Domain`, `Application`, `Infrastructure` y `WebApi`.
+- Dependencias alineadas a la rama 10: EF Core y EF Core Design `10.0.15`, Npgsql `10.0.4`, Swashbuckle `10.3.1` y `Microsoft.Extensions.DependencyInjection.Abstractions` `10.0.15`.
+- `global.json` fija el SDK `10.0.404` con `rollForward: latestFeature` y sin prereleases: acepta actualizaciones dentro de .NET 10, nunca .NET 11.
+- CI (`setup-dotnet` → `10.0.x`), Dependabot y documentación actualizados. La rama `11.x` está excluida explícitamente en Dependabot.
+
+Validación: `dotnet restore`, `dotnet build -c Release` (0 advertencias y 0 errores), arranque de la API y `200 OK` en `/swagger/v1/swagger.json`.
 
 ---
 
@@ -28,8 +41,8 @@ El objetivo del proyecto es servir como backend del portafolio personal y, al mi
 
 | Tecnología | Uso |
 |---|---|
-| .NET 8 / ASP.NET Core | Framework de la API |
-| Entity Framework Core 9 | Acceso a datos |
+| .NET 10 / ASP.NET Core | Framework de la API |
+| Entity Framework Core 10 | Acceso a datos |
 | Npgsql.EntityFrameworkCore.PostgreSQL | Proveedor de PostgreSQL |
 | PostgreSQL | Base de datos |
 | Proyecciones LINQ de EF Core | Mapeo entidad → DTO |
@@ -219,7 +232,7 @@ La respuesta es un objeto `CurriculumDto` con las secciones `profile`, `contact`
 
 ### Requisitos
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) (fijado en `global.json`; `rollForward: latestFeature`, sin saltos a .NET 11)
 - PostgreSQL 13 o superior
 - `dotnet-ef` (solo si vas a regenerar el scaffold)
 
@@ -287,7 +300,7 @@ El estado se comprueba con `dotnet dev-certs https --check --trust`. El frontend
 El proyecto usa el enfoque *database-first*. Si el esquema cambia, regenera las entidades y el contexto:
 
 ```bash
-dotnet tool install --global dotnet-ef --version 9.0.23
+dotnet tool install --global dotnet-ef --version 10.0.15
 
 dotnet ef dbcontext scaffold "Host=localhost;Port=5432;Database=portafolio;Username=usr_portafolio;Password=secret" Npgsql.EntityFrameworkCore.PostgreSQL --project Portafolio.Infrastructure --startup-project Portafolio.WebApi --context PortafolioDbContext --context-dir Persistence/Contexts --output-dir Persistence/Entities --no-onconfiguring --force
 ```
@@ -363,6 +376,7 @@ portafolio-backend/
 - [x] Documentación Swagger.
 - [x] CORS configurable para el frontend y certificado HTTPS de desarrollo.
 - [x] CodeQL, Dependabot y auditoría NuGet en GitHub Actions.
+- [x] Migración a .NET 10: SDK fijado, dependencias en rama 10 y CI actualizado.
 - [ ] Pruebas unitarias e integración.
 - [ ] Autenticación y autorización.
 - [ ] Endpoints de escritura (CRUD).
