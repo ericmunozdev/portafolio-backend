@@ -16,9 +16,9 @@ El objetivo del proyecto es servir como backend del portafolio personal y, al mi
 El runtime 10 ya estaba instalado; el bloqueo era el `<TargetFramework>net8.0</TargetFramework>` declarado en los cuatro proyectos. La migración se hizo de forma completa:
 
 - `net8.0` → `net10.0` en `Domain`, `Application`, `Infrastructure` y `WebApi`.
-- Dependencias alineadas a la rama 10: EF Core y EF Core Design `10.0.15`, Npgsql `10.0.4`, Swashbuckle `10.3.1` y `Microsoft.Extensions.DependencyInjection.Abstractions` `10.0.15`.
+- Dependencias: EF Core y EF Core Design `10.0.15`, Npgsql `10.0.4`, `Microsoft.Extensions.DependencyInjection.Abstractions` `10.0.15` y Swashbuckle `11.0.1` (rama 11 compatible con net10.0).
 - `global.json` fija el SDK `10.0.404` con `rollForward: latestFeature` y sin prereleases: acepta actualizaciones dentro de .NET 10, nunca .NET 11.
-- CI (`setup-dotnet` → `10.0.x`), Dependabot y documentación actualizados. La rama `11.x` está excluida explícitamente en Dependabot.
+- CI (`setup-dotnet` → `10.0.x`), Dependabot y documentación actualizados. La rama `11.x` de EF Core, EF Core Design, Npgsql y DependencyInjection.Abstractions está excluida explícitamente en Dependabot; Swashbuckle 11.x se admite por su compatibilidad con net10.0.
 
 Validación: `dotnet restore`, `dotnet build -c Release` (0 advertencias y 0 errores), arranque de la API y `200 OK` en `/swagger/v1/swagger.json`.
 
